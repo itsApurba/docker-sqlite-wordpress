@@ -27,6 +27,10 @@ RUN curl -L -o sqlite-database-integration.tar.gz "https://github.com/WordPress/
     touch "${WORDPRESS_PREPARE_DIR}/wp-content/database/.ht.sqlite" && \
     chmod 640 "${WORDPRESS_PREPARE_DIR}/wp-content/database/.ht.sqlite"
 
+# Add a ServerName directive to Apache to suppress the warning
+RUN echo "ServerName localhost" >> /etc/apache2/conf-available/servername.conf && \
+    ln -s /etc/apache2/conf-available/servername.conf /etc/apache2/conf-enabled/servername.conf
+
 # Expose port 80 to the outside world
 EXPOSE 80
 
