@@ -25,11 +25,14 @@ RUN curl -L -o sqlite-database-integration.tar.gz "https://github.com/WordPress/
     sed -i 's#{SQLITE_PLUGIN}#sqlite-database-integration/load.php#' "${WORDPRESS_PREPARE_DIR}/wp-content/db.php" && \
     mkdir "${WORDPRESS_PREPARE_DIR}/wp-content/database" && \
     touch "${WORDPRESS_PREPARE_DIR}/wp-content/database/.ht.sqlite" && \
-    chmod 640 "${WORDPRESS_PREPARE_DIR}/wp-content/database/.ht.sqlite"
+    chmod 660 "${WORDPRESS_PREPARE_DIR}/wp-content/database/.ht.sqlite"
 
 # Add a ServerName directive to Apache to suppress the warning
 RUN echo "ServerName localhost" >> /etc/apache2/conf-available/servername.conf && \
     ln -s /etc/apache2/conf-available/servername.conf /etc/apache2/conf-enabled/servername.conf
+
+# Copy a customized wp-config.php if needed
+COPY wp-config.php ${WORDPRESS_PREPARE_DIR}/wp-config.php
 
 # Expose port 80 to the outside world
 EXPOSE 80
