@@ -8,7 +8,7 @@ LABEL org.opencontainers.image.authors="soulteary@gmail.com"
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Environment variable for the WordPress preparation directory
-ENV WORDPRESS_PREPARE_DIR=/usr/src/wordpress
+ENV WORDPRESS_PREPARE_DIR=/var/www/html
 
 # Environment variable for the SQLite Database Integration plugin version
 ENV SQLITE_DATABASE_INTEGRATION_VERSION=2.1.11
@@ -26,9 +26,6 @@ RUN curl -L -o sqlite-database-integration.tar.gz "https://github.com/WordPress/
     mkdir "${WORDPRESS_PREPARE_DIR}/wp-content/database" && \
     touch "${WORDPRESS_PREPARE_DIR}/wp-content/database/.ht.sqlite" && \
     chmod 640 "${WORDPRESS_PREPARE_DIR}/wp-content/database/.ht.sqlite"
-
-# Copy the prepared WordPress files to the web root directory
-COPY ${WORDPRESS_PREPARE_DIR} /var/www/html
 
 # Expose port 80 to the outside world
 EXPOSE 80
